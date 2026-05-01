@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kyokushin Chile — Directorio Nacional de Dojos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --red:       #C8102E;
+      --red-dark:  #9a0c22;
+      --red-glow:  rgba(200,16,46,0.18);
+      --black:     #0a0a0a;
+      --charcoal:  #141414;
+      --card:      #1b1b1b;
+      --border:    #2a2a2a;
+      --text:      #e8e8e8;
+      --muted:     #888;
+      --white:     #ffffff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'Barlow', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ─── NOISE OVERLAY ─────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.5;
+    }
+
+    /* ─── HEADER ─────────────────────────────────────────── */
+    header {
+      position: relative;
+      padding: 3rem 2rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    header::after {
+      content: '押忍';
+      position: absolute;
+      right: -1rem;
+      top: -1.5rem;
+      font-family: serif;
+      font-size: 14rem;
+      color: rgba(200,16,46,0.06);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .logo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .logo-badge .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 8px var(--red);
+    }
+
+    .logo-badge span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--red);
+    }
+
+    header h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      line-height: 0.9;
+      letter-spacing: 0.02em;
+      color: var(--white);
+    }
+
+    header h1 em {
+      color: var(--red);
+      font-style: normal;
+    }
+
+    .header-sub {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 520px;
+      margin-top: 0.8rem;
+      line-height: 1.6;
+    }
+
+    /* ─── CONTROLS ───────────────────────────────────────── */
+    .controls {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+    }
+
+    .controls-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .search-wrap {
+      flex: 1;
+      min-width: 200px;
+      position: relative;
+    }
+
+    .search-wrap svg {
+      position: absolute;
+      left: 0.85rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px; height: 16px;
+      stroke: var(--muted);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+    }
+
+    input[type="text"],
+    select {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'Barlow', sans-serif;
+      font-size: 0.9rem;
+      border-radius: 6px;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+
+    input[type="text"] {
+      padding: 0.65rem 0.85rem 0.65rem 2.4rem;
+    }
+
+    select {
+      padding: 0.65rem 1rem;
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.85rem center;
+      padding-right: 2.2rem;
+    }
+
+    input[type="text"]:focus,
+    select:focus { border-color: var(--red); }
+
+    .count-badge {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      white-space: nowrap;
+      padding: 0 0.25rem;
+    }
+
+    .count-badge strong { color: var(--text); }
+
+    /* ─── SUBMIT BANNER ──────────────────────────────────── */
+    .submit-banner {
+      max-width: 1200px;
+      margin: 1.5rem auto 0;
+      padding: 0 2rem;
+    }
+
+    .submit-banner a {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: linear-gradient(135deg, var(--red-dark), var(--red));
+      color: white;
+      text-decoration: none;
+      padding: 0.9rem 1.4rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: opacity 0.2s;
+    }
+
+    .submit-banner a:hover { opacity: 0.85; }
+
+    .submit-banner a svg {
+      width: 18px; height: 18px;
+      fill: none; stroke: white;
+      stroke-width: 2; stroke-linecap: round;
+      flex-shrink: 0;
+    }
+
+    /* ─── REGION GROUPS ──────────────────────────────────── */
+    .main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 2rem 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .region-group { margin-bottom: 3rem; }
+
+    .region-label {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .region-label h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 0.05em;
+      color: var(--white);
+    }
+
+    .region-label .pill {
+      background: var(--card);
+      border: 1px solid var(--border);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+    }
+
+    /* ─── CARD GRID ──────────────────────────────────────── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.3rem 1.4rem;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--red);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .card:hover {
+      border-color: #3a3a3a;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(200,16,46,0.15);
+    }
+
+    .card:hover::before { opacity: 1; }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .card h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.2;
+      letter-spacing: 0.01em;
+    }
+
+    .org-tag {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .org-IKO   { background: rgba(59,130,246,0.15); color: #60a5fa; border: 1px solid rgba(59,130,246,0.3); }
+    .org-KWU   { background: rgba(34,197,94,0.12); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+    .org-WKB   { background: rgba(168,85,247,0.12); color: #c084fc; border: 1px solid rgba(168,85,247,0.3); }
+    .org-IFK   { background: rgba(251,146,60,0.12); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+    .org-INDIE { background: rgba(248,250,252,0.06); color: var(--muted); border: 1px solid var(--border); }
+
+    .card-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .meta-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .meta-row svg {
+      width: 13px; height: 13px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      fill: none; stroke: var(--muted);
+      stroke-width: 2; stroke-linecap: round;
+    }
+
+    .meta-row a {
+      color: var(--red);
+      text-decoration: none;
+    }
+    .meta-row a:hover { text-decoration: underline; }
+
+    .sensei-name {
+      font-weight: 600;
+      color: #c8c8c8;
+    }
+
+    /* ─── EMPTY STATE ────────────────────────────────────── */
+    .empty {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--muted);
+    }
+
+    .empty .icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.4; }
+    .empty p { font-size: 1rem; }
+
+    /* ─── FOOTER ─────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.8rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    footer strong { color: var(--red); }
+
+    /* ─── ANIMATIONS ─────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card { animation: fadeUp 0.35s ease both; }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 600px) {
+      header { padding: 2rem 1.2rem 1.8rem; }
+      header::after { font-size: 8rem; }
+      .controls { padding: 0.75rem 1.2rem; }
+      .main { padding: 1.5rem 1.2rem 3rem; }
+      .submit-banner { padding: 0 1.2rem; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══════════════════════════════════════════ -->
+<header>
+  <div class="header-inner">
+    <div class="logo-badge">
+      <div class="dot"></div>
+      <span>Directorio Nacional · OSU!</span>
+    </div>
+    <h1>KYOKUSHIN<br><em>CHILE</em></h1>
+    <p class="header-sub">
+      Directorio centralizado de dojos de Karate Kyokushin en Chile. Útil para karatecas que se mudan de ciudad y necesitan encontrar dónde entrenar rápidamente.
+    </p>
+  </div>
+</header>
+
+<!-- ═══ CONTROLS ══════════════════════════════════════════ -->
+<div class="controls">
+  <div class="controls-inner">
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="searchInput" placeholder="Buscar por ciudad, sensei o dojo…" />
+    </div>
+    <select id="regionFilter">
+      <option value="">Todas las regiones</option>
+    </select>
+    <select id="orgFilter">
+      <option value="">Todas las organizaciones</option>
+      <option value="IKO">IKO</option>
+      <option value="KWU">KWU / FCHKC</option>
+      <option value="WKB">WKB</option>
+      <option value="IFK">IFK</option>
+      <option value="INDIE">Independiente</option>
+    </select>
+    <div class="count-badge" id="countBadge"></div>
+  </div>
+</div>
+
+<!-- ═══ SUBMIT BANNER ════════════════════════════════════ -->
+<div class="submit-banner">
+  <a href="mailto:directorio@kyokushinchile.cl">
+    <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    ¿Tu dojo no está aquí? Escríbenos para agregarlo gratis
+  </a>
+</div>
+
+<!-- ═══ MAIN ══════════════════════════════════════════════ -->
+<main class="main" id="main"></main>
+
+<!-- ═══ FOOTER ═══════════════════════════════════════════ -->
+<footer>
+  <strong>Kyokushin Chile</strong> — Directorio Nacional de Dojos &nbsp;·&nbsp;
+  Proyecto comunitario sin fines de lucro &nbsp;·&nbsp;
+  <strong>押忍 OSU!</strong>
+</footer>
+
+<script>
+// ════════════════════════════════════════════════════════
+//  DOJO DATA — edit freely, one object per dojo
+// ════════════════════════════════════════════════════════
+const DOJOS = [
+  // ── Región Metropolitana ──────────────────────────────
+  {
+    name: "Honbu Dojo — Kyokushinkai Chile",
+    sensei: "Shuseki Shihan Pedro Pino 7° Dan",
+    city: "Santiago Centro",
+    region: "Región Metropolitana",
+    address: "Eyzaguirre 1086, Santiago",
+    phone: "+56 9 9431 5674",
+    email: "shihanpedropino@gmail.com",
+    web: "https://www.kyokushinkai.cl",
+    org: "IKO",
+    schedule: "Lunes a viernes"
+  },
+  {
+    name: "Royama Group Chile — Hombu Dojo",
+    sensei: "Sensei José Luis Olmeño 3° Dan",
+    city: "Santiago Centro",
+    region: "Región Metropolitana",
+    address: "Santiago Centro (Renca sector)",
+    phone: "",
+    email: "",
+    web: "https://royama.cl",
+    org: "IKO",
+    schedule: "Martes y jueves"
+  },
+  {
+    name: "Dojo Kaiju Chile",
+    sensei: "Shihan Francisco Sandoval 5° Dan",
+    city: "Conchalí",
+    region: "Región Metropolitana",
+    address: "Llaima 1663, Conchalí",
+    phone: "+56 9 9523 7109",
+    email: "dojokaiju@gmail.com",
+    web: "",
+    org: "IKO",
+    schedule: "Consultar"
+  },
+  {
+    name: "Dojo Dragones — La Reina",
+    sensei: "Sensei Henry Gana Pereda 5° Dan",
+    city: "La Reina",
+    region: "Región Metropolitana",
+    address: "Francisco de Villagra 6581, La Reina",
+    phone: "",
+    email: "",
+    web: "https://www.jkachile.com",
+    org: "IKO",
+    schedule: "Consultar"
+  },
+  {
+    name: "Dojo Hachiman — La Florida",
+    sensei: "Sensei Henry Gana Pereda 5° Dan",
+    city: "La Florida",
+    region: "Región Metropolitana",
+    address: "Av. Trinidad Oriente 575, La Florida",
+    phone: "",
+    email: "",
+    web: "",
+    org: "IKO",
+    schedule: "Consultar"
+  },
+  {
+    name: "WKB Santiago",
+    sensei: "Sensei Moisés Cifuentes 3° Dan",
+    city: "Santiago",
+    region: "Región Metropolitana",
+    address: "Santiago (consultar sede exacta)",
+    phone: "",
+    email: "",
+    web: "https://wkbchile.cl",
+    org: "WKB",
+    schedule: "Consultar"
+  },
+
+  // ── Tarapacá (Iquique) ───────────────────────────────
+  {
+    name: "Dojo Ganbaru Iquique",
+    sensei: "Consultar",
+    city: "Iquique",
+    region: "Tarapacá",
+    address: "Iquique",
+    phone: "+56 9 5638 6228",
+    email: "jcamsan@gmail.com",
+    web: "https://www.facebook.com/karateiquique",
+    org: "IKO",
+    schedule: "Consultar (formativo niños 5–20 años)"
+  },
+  {
+    name: "El Octágono — Karate Kyokushin",
+    sensei: "Sensei Renato Herrada 3° Dan IKO1",
+    city: "Iquique",
+    region: "Tarapacá",
+    address: "Av. Francisco Bilbao 3696, Iquique",
+    phone: "+56 9 6858 4908",
+    email: "contacto@eloctagono.cl",
+    web: "https://eloctagono.cl/karate",
+    org: "IKO",
+    schedule: "Consultar"
+  },
+  {
+    name: "IKO Matsushima Iquique",
+    sensei: "Shihan Freddy Segovia — Branch Chief IKO Matsushima",
+    city: "Iquique",
+    region: "Tarapacá",
+    address: "Iquique (sedes en colegios Humberstone y Eagles)",
+    phone: "",
+    email: "",
+    web: "http://kyokushin-matsushima.jp/e",
+    org: "IKO",
+    schedule: "Consultar (talleres y academia desde los 5 años)"
+  },
+  {
+    name: "IKO Union Chile — Iquique",
+    sensei: "Senpai Christian Iriarte",
+    city: "Iquique",
+    region: "Tarapacá",
+    address: "Iquique",
+    phone: "",
+    email: "",
+    web: "https://ikounionchile.webnode.cl",
+    org: "IKO",
+    schedule: "Consultar"
+  },
+
+  // ── Valparaíso ────────────────────────────────────────
+  {
+    name: "IFK Valparaíso",
+    sensei: "Germán Carú — Director Nacional IFK Chile",
+    city: "Valparaíso",
+    region: "Valparaíso",
+    address: "Valparaíso (consultar dirección exacta)",
+    phone: "",
+    email: "",
+    web: "https://ifkchile.cl",
+    org: "IFK",
+    schedule: "Consultar"
+  },
+  {
+    name: "Dojo Sensei Ángel Olguín",
+    sensei: "Sensei Ángel Olguín 3° Dan Internacional",
+    city: "Viña del Mar",
+    region: "Valparaíso",
+    address: "Pasaje Nieto 49, Viña del Mar",
+    phone: "+56 9 3742 9641",
+    email: "",
+    web: "https://federacionchilenakaratedecontacto.cl",
+    org: "KWU",
+    schedule: "Consultar"
+  },
+  {
+    name: "Dojo KWU Zapallar",
+    sensei: "Consultar",
+    city: "Zapallar",
+    region: "Valparaíso",
+    address: "La Foresta de Zapallar",
+    phone: "+56 9 9931 5803",
+    email: "",
+    web: "https://federacionchilenakaratedecontacto.cl",
+    org: "KWU",
+    schedule: "Consultar"
+  },
+
+  // ── Biobío ────────────────────────────────────────────
+  {
+    name: "Royama Group — Coronel",
+    sensei: "Sensei José Luis Olmeño (delegado)",
+    city: "Coronel",
+    region: "Biobío",
+    address: "Coronel, Concepción",
+    phone: "",
+    email: "",
+    web: "https://royama.cl",
+    org: "IKO",
+    schedule: "Consultar"
+  },
+
+  // ── Coquimbo ──────────────────────────────────────────
+  {
+    name: "Dojo Kyokushin Coquimbo",
+    sensei: "Consultar",
+    city: "Coquimbo",
+    region: "Coquimbo",
+    address: "Coquimbo",
+    phone: "",
+    email: "",
+    web: "",
+    org: "IKO",
+    schedule: "Consultar"
+  },
+
+  // ── La Araucanía ──────────────────────────────────────
+  {
+    name: "Dojo Punta Arenas — Oni Musha",
+    sensei: "Consultar",
+    city: "Punta Arenas",
+    region: "Magallanes",
+    address: "Punta Arenas",
+    phone: "",
+    email: "",
+    web: "",
+    org: "INDIE",
+    schedule: "Consultar"
+  },
+];
+
+// ════════════════════════════════════════════════════════
+//  RENDER ENGINE
+// ════════════════════════════════════════════════════════
+
+const ORG_LABELS = {
+  IKO: "IKO", KWU: "KWU", WKB: "WKB", IFK: "IFK", INDIE: "Independ."
+};
+
+const pin = `<svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
+const phone = `<svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.01 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>`;
+const globe = `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>`;
+const clock = `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
+const user = `<svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`;
+
+function renderCard(dojo, delay) {
+  const orgClass = `org-${dojo.org}`;
+  const orgLabel = ORG_LABELS[dojo.org] || dojo.org;
+  return `
+    <div class="card" style="animation-delay:${delay}ms">
+      <div class="card-header">
+        <h3>${dojo.name}</h3>
+        <span class="org-tag ${orgClass}">${orgLabel}</span>
+      </div>
+      <div class="card-meta">
+        ${dojo.sensei !== "Consultar" ? `<div class="meta-row">${user}<span class="sensei-name">${dojo.sensei}</span></div>` : ""}
+        <div class="meta-row">${pin}<span>${dojo.address}${dojo.city !== dojo.address.split(",")[0] ? `, <strong style="color:#c8c8c8">${dojo.city}</strong>` : ""}</span></div>
+        ${dojo.phone ? `<div class="meta-row">${phone}<span><a href="tel:${dojo.phone}">${dojo.phone}</a></span></div>` : ""}
+        ${dojo.web ? `<div class="meta-row">${globe}<span><a href="${dojo.web}" target="_blank" rel="noopener">${dojo.web.replace(/^https?:\/\//, "")}</a></span></div>` : ""}
+        <div class="meta-row">${clock}<span>${dojo.schedule}</span></div>
+      </div>
+    </div>`;
+}
+
+function getRegions() {
+  const seen = new Set();
+  return DOJOS
+    .map(d => d.region)
+    .filter(r => { if (seen.has(r)) return false; seen.add(r); return true; });
+}
+
+function populateRegionFilter() {
+  const sel = document.getElementById("regionFilter");
+  getRegions().forEach(r => {
+    const opt = document.createElement("option");
+    opt.value = r; opt.textContent = r;
+    sel.appendChild(opt);
+  });
+}
+
+function render() {
+  const q = document.getElementById("searchInput").value.toLowerCase().trim();
+  const region = document.getElementById("regionFilter").value;
+  const org = document.getElementById("orgFilter").value;
+
+  let filtered = DOJOS.filter(d => {
+    const text = [d.name, d.sensei, d.city, d.region, d.address].join(" ").toLowerCase();
+    if (q && !text.includes(q)) return false;
+    if (region && d.region !== region) return false;
+    if (org && d.org !== org) return false;
+    return true;
+  });
+
+  document.getElementById("countBadge").innerHTML =
+    `<strong>${filtered.length}</strong> dojo${filtered.length !== 1 ? "s" : ""}`;
+
+  const main = document.getElementById("main");
+
+  if (!filtered.length) {
+    main.innerHTML = `<div class="empty"><div class="icon">🥋</div><p>No se encontraron dojos con esos filtros.</p></div>`;
+    return;
+  }
+
+  // Group by region preserving order
+  const groups = {};
+  filtered.forEach(d => {
+    if (!groups[d.region]) groups[d.region] = [];
+    groups[d.region].push(d);
+  });
+
+  let html = "";
+  let cardIdx = 0;
+  for (const [region, dojos] of Object.entries(groups)) {
+    html += `<div class="region-group">
+      <div class="region-label">
+        <h2>${region}</h2>
+        <span class="pill">${dojos.length} dojo${dojos.length !== 1 ? "s" : ""}</span>
+      </div>
+      <div class="grid">`;
+    dojos.forEach(d => {
+      html += renderCard(d, cardIdx * 40);
+      cardIdx++;
+    });
+    html += `</div></div>`;
+  }
+
+  main.innerHTML = html;
+}
+
+// ── Init ───────────────────────────────────────────────
+populateRegionFilter();
+render();
+
+["searchInput", "regionFilter", "orgFilter"].forEach(id => {
+  document.getElementById(id).addEventListener("input", render);
+});
+</script>
+</body>
+</html>

@@ -1,116 +1,146 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kyokushin Chile — Directorio Nacional de Dojos</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --red:       #C8102E;
-      --red-dark:  #9a0c22;
-      --red-glow:  rgba(200,16,46,0.18);
-      --black:     #0a0a0a;
-      --charcoal:  #141414;
-      --card:      #1b1b1b;
-      --border:    #2a2a2a;
-      --text:      #e8e8e8;
-      --muted:     #888;
-      --white:     #ffffff;
+      --red:        #C8102E;
+      --red-light:  #f5e0e3;
+      --ink:        #0f0f0f;
+      --ink-2:      #2a2a2a;
+      --ink-3:      #555;
+      --ink-4:      #888;
+      --surface:    #ffffff;
+      --surface-2:  #f7f5f2;
+      --surface-3:  #ede9e3;
+      --border:     #e4ddd6;
+      --border-2:   #cfc9c1;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
     body {
-      background: var(--black);
-      color: var(--text);
-      font-family: 'Barlow', sans-serif;
+      background: var(--surface-2);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
       min-height: 100vh;
       overflow-x: hidden;
     }
 
-    /* ─── NOISE OVERLAY ─────────────────────────────────── */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.5;
-    }
-
     /* ─── HEADER ─────────────────────────────────────────── */
     header {
-      position: relative;
-      padding: 3rem 2rem 2.5rem;
+      background: var(--surface);
       border-bottom: 1px solid var(--border);
+      position: relative;
       overflow: hidden;
-      z-index: 1;
     }
 
-    header::after {
-      content: '押忍';
-      position: absolute;
-      right: -1rem;
-      top: -1.5rem;
-      font-family: serif;
-      font-size: 14rem;
-      color: rgba(200,16,46,0.06);
-      line-height: 1;
-      pointer-events: none;
-      user-select: none;
+    .header-stripe {
+      height: 5px;
+      background: var(--red);
     }
 
     .header-inner {
       max-width: 1200px;
       margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
+      padding: 3.5rem 2rem 3rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 2rem;
     }
 
-    .logo-badge {
+    .header-kanji {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-45%);
+      font-family: serif;
+      font-size: 18rem;
+      color: rgba(200,16,46,0.045);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .header-eyebrow {
       display: inline-flex;
       align-items: center;
       gap: 0.6rem;
-      margin-bottom: 0.5rem;
+      margin-bottom: 1rem;
     }
 
-    .logo-badge .dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
+    .eyebrow-line {
+      display: inline-block;
+      width: 2rem;
+      height: 2px;
       background: var(--red);
-      box-shadow: 0 0 8px var(--red);
+      flex-shrink: 0;
     }
 
-    .logo-badge span {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.25em;
+    .eyebrow-text {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--red);
     }
 
     header h1 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(3rem, 8vw, 6.5rem);
-      line-height: 0.9;
-      letter-spacing: 0.02em;
-      color: var(--white);
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 7vw, 6rem);
+      font-weight: 900;
+      line-height: 0.92;
+      color: var(--ink);
+      letter-spacing: -0.02em;
     }
 
     header h1 em {
       color: var(--red);
-      font-style: normal;
+      font-style: italic;
     }
 
     .header-sub {
-      font-size: 1rem;
-      color: var(--muted);
-      max-width: 520px;
-      margin-top: 0.8rem;
+      font-size: 0.95rem;
+      color: var(--ink-3);
+      max-width: 480px;
+      margin-top: 1.2rem;
+      line-height: 1.75;
+      font-weight: 300;
+    }
+
+    .header-stats {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.3rem;
+      padding-bottom: 0.5rem;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem;
+      font-weight: 900;
+      color: var(--red);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.63rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-4);
+      text-align: right;
       line-height: 1.6;
     }
 
@@ -119,17 +149,18 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(10,10,10,0.92);
-      backdrop-filter: blur(12px);
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
-      padding: 1rem 2rem;
+      padding: 0.9rem 2rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
     }
 
     .controls-inner {
       max-width: 1200px;
       margin: 0 auto;
       display: flex;
-      gap: 1rem;
+      gap: 0.75rem;
       flex-wrap: wrap;
       align-items: center;
     }
@@ -142,57 +173,63 @@
 
     .search-wrap svg {
       position: absolute;
-      left: 0.85rem;
+      left: 0.9rem;
       top: 50%;
       transform: translateY(-50%);
-      width: 16px; height: 16px;
-      stroke: var(--muted);
+      width: 15px; height: 15px;
+      stroke: var(--ink-4);
       fill: none;
       stroke-width: 2;
       stroke-linecap: round;
+      pointer-events: none;
     }
 
     input[type="text"],
     select {
-      background: var(--card);
-      border: 1px solid var(--border);
-      color: var(--text);
-      font-family: 'Barlow', sans-serif;
-      font-size: 0.9rem;
-      border-radius: 6px;
+      background: var(--surface-2);
+      border: 1.5px solid var(--border);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+      border-radius: 8px;
       outline: none;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
       width: 100%;
     }
 
     input[type="text"] {
-      padding: 0.65rem 0.85rem 0.65rem 2.4rem;
+      padding: 0.62rem 0.9rem 0.62rem 2.4rem;
     }
 
     select {
-      padding: 0.65rem 1rem;
+      padding: 0.62rem 2rem 0.62rem 0.9rem;
       cursor: pointer;
       min-width: 180px;
       appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
-      background-position: right 0.85rem center;
-      padding-right: 2.2rem;
+      background-position: right 0.8rem center;
+      background-size: 11px 7px;
     }
 
     input[type="text"]:focus,
-    select:focus { border-color: var(--red); }
-
-    .count-badge {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.8rem;
-      letter-spacing: 0.1em;
-      color: var(--muted);
-      white-space: nowrap;
-      padding: 0 0.25rem;
+    select:focus {
+      border-color: var(--red);
+      background: var(--surface);
+      box-shadow: 0 0 0 3px rgba(200,16,46,0.09);
     }
 
-    .count-badge strong { color: var(--text); }
+    input::placeholder { color: var(--ink-4); }
+
+    .count-badge {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      color: var(--ink-4);
+      white-space: nowrap;
+    }
+
+    .count-badge strong { color: var(--ink-2); }
 
     /* ─── SUBMIT BANNER ──────────────────────────────────── */
     .submit-banner {
@@ -202,62 +239,64 @@
     }
 
     .submit-banner a {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 0.75rem;
-      background: linear-gradient(135deg, var(--red-dark), var(--red));
-      color: white;
+      gap: 0.6rem;
+      background: transparent;
+      border: 1.5px solid var(--red);
+      color: var(--red);
       text-decoration: none;
-      padding: 0.9rem 1.4rem;
+      padding: 0.65rem 1.1rem;
       border-radius: 8px;
       font-weight: 600;
-      font-size: 0.9rem;
-      transition: opacity 0.2s;
+      font-size: 0.85rem;
+      transition: background 0.2s, color 0.2s;
     }
 
-    .submit-banner a:hover { opacity: 0.85; }
+    .submit-banner a:hover { background: var(--red); color: white; }
 
     .submit-banner a svg {
-      width: 18px; height: 18px;
-      fill: none; stroke: white;
+      width: 15px; height: 15px;
+      fill: none; stroke: currentColor;
       stroke-width: 2; stroke-linecap: round;
       flex-shrink: 0;
     }
 
-    /* ─── REGION GROUPS ──────────────────────────────────── */
+    /* ─── MAIN ───────────────────────────────────────────── */
     .main {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 2rem 2rem 4rem;
-      position: relative;
-      z-index: 1;
+      padding: 2.5rem 2rem 5rem;
     }
 
-    .region-group { margin-bottom: 3rem; }
+    .region-group { margin-bottom: 3.5rem; }
 
     .region-label {
       display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      margin-bottom: 1rem;
-      padding-bottom: 0.6rem;
-      border-bottom: 1px solid var(--border);
+      align-items: baseline;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1.5px solid var(--border);
     }
 
     .region-label h2 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.5rem;
-      letter-spacing: 0.05em;
-      color: var(--white);
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.01em;
     }
 
     .region-label .pill {
-      background: var(--card);
-      border: 1px solid var(--border);
-      font-size: 0.72rem;
-      font-weight: 700;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.63rem;
+      font-weight: 500;
       letter-spacing: 0.1em;
-      color: var(--muted);
+      text-transform: uppercase;
+      color: var(--ink-4);
+      background: var(--surface-3);
+      border: 1px solid var(--border-2);
       padding: 0.2rem 0.6rem;
       border-radius: 999px;
     }
@@ -265,146 +304,170 @@
     /* ─── CARD GRID ──────────────────────────────────────── */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 1.1rem;
     }
 
     .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.3rem 1.4rem;
-      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 1.4rem 1.5rem;
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
       cursor: default;
       position: relative;
       overflow: hidden;
+      animation: fadeUp 0.4s ease both;
     }
 
-    .card::before {
-      content: '';
+    .card-accent {
       position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: var(--red);
-      opacity: 0;
-      transition: opacity 0.2s;
+      top: 0; left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--border-2);
+      transition: background 0.25s;
     }
 
     .card:hover {
-      border-color: #3a3a3a;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(200,16,46,0.15);
+      border-color: var(--border-2);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 36px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04);
     }
 
-    .card:hover::before { opacity: 1; }
+    .card:hover .card-accent { background: var(--red); }
 
     .card-header {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
       gap: 0.5rem;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.9rem;
+      padding-left: 0.75rem;
     }
 
     .card h3 {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--white);
-      line-height: 1.2;
-      letter-spacing: 0.01em;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.965rem;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.35;
+      letter-spacing: -0.01em;
     }
 
     .org-tag {
-      font-size: 0.65rem;
-      font-weight: 700;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      font-weight: 500;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      padding: 0.2rem 0.55rem;
+      padding: 0.2rem 0.5rem;
       border-radius: 4px;
       white-space: nowrap;
       flex-shrink: 0;
     }
 
-    .org-IKO   { background: rgba(59,130,246,0.15); color: #60a5fa; border: 1px solid rgba(59,130,246,0.3); }
-    .org-KWU   { background: rgba(34,197,94,0.12); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
-    .org-WKB   { background: rgba(168,85,247,0.12); color: #c084fc; border: 1px solid rgba(168,85,247,0.3); }
-    .org-IFK   { background: rgba(251,146,60,0.12); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
-    .org-INDIE { background: rgba(248,250,252,0.06); color: var(--muted); border: 1px solid var(--border); }
+    .org-IKO   { background: #dbeafe; color: #1d4ed8; border: 1px solid #bfdbfe; }
+    .org-KWU   { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+    .org-WKB   { background: #f3e8ff; color: #7e22ce; border: 1px solid #e9d5ff; }
+    .org-IFK   { background: #ffedd5; color: #c2410c; border: 1px solid #fed7aa; }
+    .org-INDIE { background: var(--surface-3); color: var(--ink-4); border: 1px solid var(--border-2); }
 
     .card-meta {
       display: flex;
       flex-direction: column;
-      gap: 0.45rem;
+      gap: 0.48rem;
+      padding-left: 0.75rem;
+      border-left: 2px solid var(--surface-3);
     }
 
     .meta-row {
       display: flex;
       align-items: flex-start;
       gap: 0.5rem;
-      font-size: 0.82rem;
-      color: var(--muted);
-      line-height: 1.4;
+      font-size: 0.815rem;
+      color: var(--ink-3);
+      line-height: 1.45;
     }
 
     .meta-row svg {
       width: 13px; height: 13px;
       flex-shrink: 0;
       margin-top: 2px;
-      fill: none; stroke: var(--muted);
-      stroke-width: 2; stroke-linecap: round;
+      fill: none;
+      stroke: var(--ink-4);
+      stroke-width: 2;
+      stroke-linecap: round;
     }
 
-    .meta-row a {
-      color: var(--red);
-      text-decoration: none;
-    }
+    .meta-row a { color: var(--red); text-decoration: none; font-weight: 500; }
     .meta-row a:hover { text-decoration: underline; }
-
-    .sensei-name {
-      font-weight: 600;
-      color: #c8c8c8;
-    }
+    .sensei-name { font-weight: 600; color: var(--ink-2); }
 
     /* ─── EMPTY STATE ────────────────────────────────────── */
     .empty {
       text-align: center;
-      padding: 4rem 2rem;
-      color: var(--muted);
+      padding: 5rem 2rem;
+      color: var(--ink-4);
     }
-
     .empty .icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.4; }
-    .empty p { font-size: 1rem; }
 
     /* ─── FOOTER ─────────────────────────────────────────── */
     footer {
+      background: var(--surface);
       border-top: 1px solid var(--border);
       padding: 2rem;
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.8rem;
-      position: relative;
-      z-index: 1;
     }
 
-    footer strong { color: var(--red); }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
 
-    /* ─── ANIMATIONS ─────────────────────────────────────── */
+    .footer-brand {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--ink-2);
+    }
+    .footer-brand span { color: var(--red); }
+
+    .footer-meta {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.66rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-4);
+    }
+
+    .footer-osu {
+      font-family: serif;
+      font-size: 1.6rem;
+      color: var(--red);
+      opacity: 0.35;
+    }
+
+    /* ─── ANIMATION ──────────────────────────────────────── */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(12px); }
+      from { opacity: 0; transform: translateY(10px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    .card { animation: fadeUp 0.35s ease both; }
-
     /* ─── RESPONSIVE ─────────────────────────────────────── */
-    @media (max-width: 600px) {
-      header { padding: 2rem 1.2rem 1.8rem; }
-      header::after { font-size: 8rem; }
-      .controls { padding: 0.75rem 1.2rem; }
-      .main { padding: 1.5rem 1.2rem 3rem; }
-      .submit-banner { padding: 0 1.2rem; }
+    @media (max-width: 700px) {
+      .header-inner { grid-template-columns: 1fr; padding: 2.5rem 1.25rem 2rem; }
+      .header-stats { align-items: flex-start; }
+      .header-kanji { font-size: 9rem; }
+      .controls { padding: 0.75rem 1.25rem; }
+      .main { padding: 1.75rem 1.25rem 3rem; }
+      .submit-banner { padding: 0 1.25rem; }
       .grid { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
@@ -412,15 +475,23 @@
 
 <!-- ═══ HEADER ═══════════════════════════════════════════ -->
 <header>
+  <div class="header-stripe"></div>
+  <div class="header-kanji">押忍</div>
   <div class="header-inner">
-    <div class="logo-badge">
-      <div class="dot"></div>
-      <span>Directorio Nacional · OSU!</span>
+    <div>
+      <div class="header-eyebrow">
+        <span class="eyebrow-line"></span>
+        <span class="eyebrow-text">Directorio Nacional · Karate</span>
+      </div>
+      <h1>Kyokushin<br><em>Chile</em></h1>
+      <p class="header-sub">
+        Directorio centralizado de dojos de Karate Kyokushin en todo Chile. Para karatecas que se mudan de ciudad y necesitan encontrar dónde entrenar, sin perder tiempo.
+      </p>
     </div>
-    <h1>KYOKUSHIN<br><em>CHILE</em></h1>
-    <p class="header-sub">
-      Directorio centralizado de dojos de Karate Kyokushin en Chile. Útil para karatecas que se mudan de ciudad y necesitan encontrar dónde entrenar rápidamente.
-    </p>
+    <div class="header-stats">
+      <div class="stat-number" id="totalDojos">—</div>
+      <div class="stat-label">Dojos<br>registrados</div>
+    </div>
   </div>
 </header>
 
@@ -429,7 +500,7 @@
   <div class="controls-inner">
     <div class="search-wrap">
       <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input type="text" id="searchInput" placeholder="Buscar por ciudad, sensei o dojo…" />
+      <input type="text" id="searchInput" placeholder="Buscar por ciudad, sensei o nombre del dojo…" />
     </div>
     <select id="regionFilter">
       <option value="">Todas las regiones</option>
@@ -448,9 +519,9 @@
 
 <!-- ═══ SUBMIT BANNER ════════════════════════════════════ -->
 <div class="submit-banner">
-  <a href="https://wa.me/56922385213">
-    <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-    ¿Tu dojo no está aquí? Escríbenos para agregarlo gratis
+  <a href="mailto:directorio@kyokushinchile.cl">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+    ¿Tu dojo no está aquí? Agrégalo gratis
   </a>
 </div>
 
@@ -459,15 +530,14 @@
 
 <!-- ═══ FOOTER ═══════════════════════════════════════════ -->
 <footer>
-  <strong>Kyokushin Chile</strong> — Directorio Nacional de Dojos &nbsp;·&nbsp;
-  Proyecto comunitario sin fines de lucro &nbsp;·&nbsp;
-  <strong>押忍 OSU!</strong>
+  <div class="footer-inner">
+    <div class="footer-brand">Kyokushin <span>Chile</span></div>
+    <div class="footer-meta">Proyecto comunitario · Sin fines de lucro</div>
+    <div class="footer-osu">押忍</div>
+  </div>
 </footer>
 
 <script>
-// ════════════════════════════════════════════════════════
-//  DOJO DATA — edit freely, one object per dojo
-// ════════════════════════════════════════════════════════
 const DOJOS = [
   // ── Región Metropolitana ──────────────────────────────
   {
@@ -659,7 +729,7 @@ const DOJOS = [
     schedule: "Consultar"
   },
 
-  // ── La Araucanía ──────────────────────────────────────
+  // ── Magallanes ────────────────────────────────────────
   {
     name: "Dojo Punta Arenas — Oni Musha",
     sensei: "Consultar",
@@ -674,44 +744,38 @@ const DOJOS = [
   },
 ];
 
-// ════════════════════════════════════════════════════════
-//  RENDER ENGINE
-// ════════════════════════════════════════════════════════
+const ORG_LABELS = { IKO: "IKO", KWU: "KWU", WKB: "WKB", IFK: "IFK", INDIE: "Independ." };
 
-const ORG_LABELS = {
-  IKO: "IKO", KWU: "KWU", WKB: "WKB", IFK: "IFK", INDIE: "Independ."
-};
-
-const pin = `<svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
-const phone = `<svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.01 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>`;
-const globe = `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>`;
-const clock = `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
-const user = `<svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`;
+const pinIcon   = `<svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
+const phoneIcon = `<svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.01 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>`;
+const globeIcon = `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>`;
+const clockIcon = `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
+const userIcon  = `<svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`;
 
 function renderCard(dojo, delay) {
-  const orgClass = `org-${dojo.org}`;
   const orgLabel = ORG_LABELS[dojo.org] || dojo.org;
+  const cityStr  = dojo.city !== dojo.address.split(",")[0]
+    ? `, <strong style="color:var(--ink-2)">${dojo.city}</strong>` : "";
   return `
     <div class="card" style="animation-delay:${delay}ms">
+      <div class="card-accent"></div>
       <div class="card-header">
         <h3>${dojo.name}</h3>
-        <span class="org-tag ${orgClass}">${orgLabel}</span>
+        <span class="org-tag org-${dojo.org}">${orgLabel}</span>
       </div>
       <div class="card-meta">
-        ${dojo.sensei !== "Consultar" ? `<div class="meta-row">${user}<span class="sensei-name">${dojo.sensei}</span></div>` : ""}
-        <div class="meta-row">${pin}<span>${dojo.address}${dojo.city !== dojo.address.split(",")[0] ? `, <strong style="color:#c8c8c8">${dojo.city}</strong>` : ""}</span></div>
-        ${dojo.phone ? `<div class="meta-row">${phone}<span><a href="tel:${dojo.phone}">${dojo.phone}</a></span></div>` : ""}
-        ${dojo.web ? `<div class="meta-row">${globe}<span><a href="${dojo.web}" target="_blank" rel="noopener">${dojo.web.replace(/^https?:\/\//, "")}</a></span></div>` : ""}
-        <div class="meta-row">${clock}<span>${dojo.schedule}</span></div>
+        ${dojo.sensei !== "Consultar" ? `<div class="meta-row">${userIcon}<span class="sensei-name">${dojo.sensei}</span></div>` : ""}
+        <div class="meta-row">${pinIcon}<span>${dojo.address}${cityStr}</span></div>
+        ${dojo.phone ? `<div class="meta-row">${phoneIcon}<span><a href="tel:${dojo.phone}">${dojo.phone}</a></span></div>` : ""}
+        ${dojo.web   ? `<div class="meta-row">${globeIcon}<span><a href="${dojo.web}" target="_blank" rel="noopener">${dojo.web.replace(/^https?:\/\//, "")}</a></span></div>` : ""}
+        <div class="meta-row">${clockIcon}<span>${dojo.schedule}</span></div>
       </div>
     </div>`;
 }
 
 function getRegions() {
   const seen = new Set();
-  return DOJOS
-    .map(d => d.region)
-    .filter(r => { if (seen.has(r)) return false; seen.add(r); return true; });
+  return DOJOS.map(d => d.region).filter(r => { if (seen.has(r)) return false; seen.add(r); return true; });
 }
 
 function populateRegionFilter() {
@@ -724,15 +788,15 @@ function populateRegionFilter() {
 }
 
 function render() {
-  const q = document.getElementById("searchInput").value.toLowerCase().trim();
+  const q      = document.getElementById("searchInput").value.toLowerCase().trim();
   const region = document.getElementById("regionFilter").value;
-  const org = document.getElementById("orgFilter").value;
+  const org    = document.getElementById("orgFilter").value;
 
-  let filtered = DOJOS.filter(d => {
+  const filtered = DOJOS.filter(d => {
     const text = [d.name, d.sensei, d.city, d.region, d.address].join(" ").toLowerCase();
-    if (q && !text.includes(q)) return false;
+    if (q      && !text.includes(q))   return false;
     if (region && d.region !== region) return false;
-    if (org && d.org !== org) return false;
+    if (org    && d.org    !== org)    return false;
     return true;
   });
 
@@ -746,39 +810,30 @@ function render() {
     return;
   }
 
-  // Group by region preserving order
   const groups = {};
-  filtered.forEach(d => {
-    if (!groups[d.region]) groups[d.region] = [];
-    groups[d.region].push(d);
-  });
+  filtered.forEach(d => { if (!groups[d.region]) groups[d.region] = []; groups[d.region].push(d); });
 
-  let html = "";
-  let cardIdx = 0;
-  for (const [region, dojos] of Object.entries(groups)) {
+  let html = "", idx = 0;
+  for (const [reg, dojos] of Object.entries(groups)) {
     html += `<div class="region-group">
       <div class="region-label">
-        <h2>${region}</h2>
+        <h2>${reg}</h2>
         <span class="pill">${dojos.length} dojo${dojos.length !== 1 ? "s" : ""}</span>
       </div>
       <div class="grid">`;
-    dojos.forEach(d => {
-      html += renderCard(d, cardIdx * 40);
-      cardIdx++;
-    });
+    dojos.forEach(d => { html += renderCard(d, idx * 45); idx++; });
     html += `</div></div>`;
   }
 
   main.innerHTML = html;
 }
 
-// ── Init ───────────────────────────────────────────────
+document.getElementById("totalDojos").textContent = DOJOS.length;
 populateRegionFilter();
 render();
-
-["searchInput", "regionFilter", "orgFilter"].forEach(id => {
-  document.getElementById(id).addEventListener("input", render);
-});
+["searchInput", "regionFilter", "orgFilter"].forEach(id =>
+  document.getElementById(id).addEventListener("input", render)
+);
 </script>
 </body>
 </html>
